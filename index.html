@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Style Sheets and Imported Assets -->
+  <link rel="stylesheet" href="stylesheet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>CardBashD</title>
+</head>
+
+<!-- Main Site -->
+<!-- Tab interface and title -->
+<header>
+  <h2>🃏 CardBashD 🃏</h2>
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-game="higher" role="tab">Higher or Lower</button>
+    <button class="tab" data-game="memory" role ="tab">Memory Match</button>
+    <button class="tab" data-game="blackjack" role="tab">Blackjack</button>
+  </div>
+</header>
+
+<!-- Main Container for all gameplay-->
+<body>
+  <main class="container">
+  <section id="panel" class="panel" aria-live="polite">
+    </section>
+  </main>
+
+  <script>
+    // Tab switching logic and game lifecycle
+    const panel = document.getElementById('panel');
+    const tabs = Array.from(document.querySelectorAll('.tab'));
+
+    let activeGame = null; // will hold {name, init, destroy} from each module
+
+    function switchTo(gameName){
+      // call destroy on active
+      if(activeGame && typeof activeGame.destroy === 'function') activeGame.destroy();
+      // clear panel
+      panel.innerHTML = '';
+      // load module initializer exposed on window by each script
+      const module = window.GAMES && window.GAMES[gameName];
+      // Error Handler if missing JS scripts
+      if(!module || typeof module.init !== 'function'){
+        panel.textContent = 'Game not available.';
+        activeGame = null;
+        return;
+      }
+      activeGame = module;
+      module.init(panel); // pass container where game should render
+    }
+
+    // tab click
+    tabs.forEach(t => t.addEventListener('click', () => {
+      tabs.forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      switchTo(t.dataset.game);
+    }));
+
+    // Start default
+    // Wait briefly for game scripts to attach to window.GAMES
+    window.addEventListener('load', () => {
+      switchTo(document.querySelector('.tab.active').dataset.game);
+    });
+  </script>
+
+  <!-- load game scripts (they should attach to window.GAMES) -->
+  <script src="HighLowCard.js"></script>
+  <script src="Blackjack.js"></script>
+  <script src="Memory.js"></script>
+</body>
+
+<!-- Footer for copyright, github link and license-->
+<footer>
+  <div class="footer-content">
+    <p>© David Basham | 2026</p>
+    <a href="LICENSE.html">GPL License</a>
+  </div>
+  <a href="https://github.com/34097027DavidB/ICT171-WebServer-CardBashD/tree/main">
+    <img src="icon.svg" alt="GitHub Link" width="36" height="36" class="github"/>
+  </a>
+</footer>
+
+</html>
