@@ -11,8 +11,9 @@ This project is meant to be deployed as a webserver.
 
 ## How to deploy
 1. Set up a linux enviroment (Ubuntu Server Reccommended)
-2. Run `sudo chmod +x deploy.sh` then `sudo ./deploy.sh`
-3. The script by default will:
+2. Download `deploy.sh`
+3. Run `sudo chmod +x deploy.sh` then `sudo ./deploy.sh`
+4. The script by default will:
    - Update the system
    - Install Nginx
    - Install Git if not already installed
@@ -21,6 +22,6 @@ This project is meant to be deployed as a webserver.
    - Set permissions
    - Create a configuration file for Nginx
    - Enable and start Nginx on startup
-4. Test by opening a web browser and typing either `127.0.0.1` or your servers public ip if on a remote locations such as AWS or Azure
+5. Test by opening a web browser and typing either `127.0.0.1` or your servers public ip if on a remote locations such as AWS or Azure
 
 If done correctly, the website should be live
