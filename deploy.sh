@@ -4,7 +4,7 @@
 set -e
 
 # Configuration variables
-REPO_URL="${1:-https://github.com/34097027DavidB/ICT171-WebServer-CardBashD}"
+REPO_URL="${1:-https://github.com/34097027DavidB/ICT171-WebServer-CardBashD.git}"
 REPO_NAME=$(basename "$REPO_URL" .git)
 NGINX_ROOT="/var/www/$REPO_NAME"
 DOMAIN="${2:-localhost}"
